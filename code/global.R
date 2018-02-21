@@ -8,9 +8,11 @@ library(shiny)
 library(data.table)
 library(tidyverse)
 library(ggplot2)
+library(DT)
+library(leaflet)
 
 # load the data:
-data_in <- readRDS('./data/Building_Permits_Issued_cleaned2.rds')
+data_in <- readRDS('../data/Building_Permits_Issued_cleaned2.rds')
 df_in <- as_tibble(data_in)
 df_in$Year <- as.numeric(format(df_in$Date.Issued, format = "%Y"))
 
