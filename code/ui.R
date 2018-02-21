@@ -31,7 +31,7 @@ ui <- fluidPage(
                              value = c(100000, 500000), pre = "$")
                  ),
     mainPanel(
-      tableOutput('table')
+      DT::dataTableOutput("bpDataTable")
               )
   )
 )
