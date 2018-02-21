@@ -1,6 +1,9 @@
 server <- function(input, output) {
   
-  output$table <- renderTable({
+  # leaflet(data = dataset[1:20,]) %>% addTiles() %>%
+  #   addMarkers(~Longitude, ~Latitude, popup = ~as.character(Cost), label = ~as.character(Cost))
+  
+  output$bpDataTable = DT::renderDataTable({
     filtered <- 
       dataset %>%
       filter(Building_Type == input$res_or_com,
