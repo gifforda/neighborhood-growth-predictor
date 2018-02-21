@@ -1,0 +1,85 @@
+---
+title: "Resources for Building Shiny Apps"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+USE THIS TO GET THE CENSUS DATA:
+https://factfinder.census.gov/faces/nav/jsf/pages/guided_search.xhtml
+
+Census data resources
+https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_16_5YR_DP03&prodType=table
+https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_15_5YR_DP03&prodType=table
+
+
+
+## RESOURCES 
+### Potentially usefull websites
+
+**Creating Maps In R**  
+Introductory tutorial on graphical display of geographical information in R.  
+* https://github.com/Robinlovelace/Creating-maps-in-R  
+* https://cran.r-project.org/doc/contrib/intro-spatial-rl.pdf
+  
+  
+**Example of Shiny R App - London Income Map**  
+App showing interactive map of average income by London borough, utilising Shiny and Leaflet in R.  
+* https://github.com/thisisnic/Shiny-London-Income-Map  
+  
+  
+**Documentation for Leaflet**  
+Leaflet is one of the most popular open-source JavaScript libraries for interactive maps.  
+* https://rstudio.github.io/leaflet/  
+  
+  
+**Example Shiny App that uses Maps**  
+This app maps car accidents in Paris.  
+* http://www.remyzum.com/shiny/Paris_Accidentologie/  
+
+## Architecture of Shiny App  
+web server runs R code -> generates App in the web
+  
+**Make 2 components**  
+* user interface - web document generated from R
+* R code - server instructions telling server what to do
+
+**App Template**
+```
+  library(shiny)
+
+  ui <- fluidPage()
+
+  server <- function(input, output) {}
+
+  shinyApp(ui = ui, server = server)
+```
+  
+## Sharing the App
+### How to save your app and share it
+Have one directory with every file the app needs:  
+* app.R (the script which ends with a call to shinyApp() )  
+  + **MUST** use this ```app.R``` name  
+* datasets, images, css, helper scripts, etc...
+  
+
+**Two file Apps**  
+Useful to do this if the App is really really large.  
+* ui.R -> everything put in the ui object  
+* server.R -> everythin in the server object  
+Don't need to have an app.R file in this format.  
+  
+**Use shinyapps.io**  
+shinyapps.io is a free service 
+
+Rules:
+   1. save objects to display to output$
+   2. build objects to display with render**()
+     - what you save into output should be something you render with the render**() function
+     - render works together with output to place an R-object as HTML in the shiny web-app
+     - braces {} pass code inside as unified code block
+   3. Use input values when you make your outputs
+     - input value changes whenever a user changes the input
+
