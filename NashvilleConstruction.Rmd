@@ -1,0 +1,75 @@
+---
+title: "Nashville Construction"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(ggplot2)
+data_in <- readRDS('./data/Building_Permits_Issued_cleaned2.rds')
+df_in <- as_tibble(data_in)
+
+str(df_in)
+
+df_in$Year <- as.numeric(format(df_in$Date.Issued, format = "%Y"))
+
+# find the unique descriptions
+unq_BP_Description <- as_tibble(table(df_in$BP_Description))
+
+# rename the column
+colnames(unq_BP_Description) <- c("unq_BP_Desc", "Total_Num")
+
+# top_types <- head(unq_BP_Description[order(-unq_BP_Description$Total_Num),],10)
+
+# pull out commercial and Residential types:
+commercial <- c('Commercial  Addition','Commercial  New', 'Commercial  Rehab', 'Commercial  Tenant Finish Out')
+residential <- c('Residential  Addition','Residential  New', 'Residential  Rehab', 'Residential  Tenant Finish Out')
+
+# subset the dataframe to only contain these types
+df_commercial <- df_in[df_in$BP_Description %in% commercial ,]
+df_residential <- df_in[df_in$BP_Description %in% residential ,]
+
+df_commercial$Year <- as.factor(df_commercial$Year)
+df_residential$Year <- as.factor(df_residential$Year)
+```
+
+Column {data-width=60%}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+
+```
+
+Column {data-width=40%} {.tabset}
+-----------------------------------------------------------------------
+
+### Commercial
+
+```{r}
+p <- ggplot(df_commercial, aes(x=Year, y=const_cost, fill=BP_Description)) + 
+  geom_boxplot(outlier.colour="black") + 
+  scale_y_log10() +
+  xlab("Year") + 
+  ylab("Construction Cost - Log Scale")
+p <- p + guides(fill=guide_legend(title="Building Permit Description"))
+p
+```
+
+### Residential
+
+```{r}
+p <- ggplot(df_residential, aes(x=Year, y=const_cost, fill=BP_Description)) + 
+  geom_boxplot(outlier.colour="black") + 
+  scale_y_log10() +
+  xlab("Year") + 
+  ylab("Construction Cost - Log Scale")
+p <- p + guides(fill=guide_legend(title="Building Permit Description"))
+p
+```
+
